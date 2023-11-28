@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - '5431:5432'
+    volumes:
+      - 'postgres:/var/lib/postgresql'
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: root
+      POSTGRES_DB: turbines
+volumes:
+  postgres:

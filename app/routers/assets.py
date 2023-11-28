@@ -1,14 +1,16 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
+from services import assets
 
 router = APIRouter(
   prefix="/assets"
 )
 
 class Asset(BaseModel):
-  asset_id: int
+  id: int
   name: str
 
-@router.get("/")
-async def get_assets() -> list[Asset]:
-  return []
+@router.get("/", response_model_exclude={"tax"})
+def get_assets() -> list[Asset]:
+  available_assets = assets.get_assets()
+  return available_assets

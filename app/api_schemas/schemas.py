@@ -7,8 +7,8 @@ class Asset(BaseModel):
 
 class MeanIn(BaseModel):
   metric: Metrics
-  startTime: float
-  endTime: float
+  startTime: int
+  endTime: int
   asset_ids: list[int]
 
 class MetricMean(BaseModel):

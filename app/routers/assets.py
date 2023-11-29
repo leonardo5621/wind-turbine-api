@@ -1,13 +1,13 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
-from services import assets
+from fastapi import APIRouter, Depends
+from services import assets, sessionmaker
 from api_schemas.schemas import Asset
+from sqlalchemy.orm import Session
 
 router = APIRouter(
   prefix="/assets"
 )
 
-@router.get("/")
-def get_assets() -> list[Asset]:
-  available_assets = assets.get_assets()
+@router.get("/", tags=["assets"])
+def get_assets(session: Session = Depends(sessionmaker.get_session_dependency)) -> list[Asset]:
+  available_assets = assets.get_assets(session)
   return available_assets

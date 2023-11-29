@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import func
 from models.db_schemas import Measurement, Asset
 from constants.metrics import Metrics
-from .sessionmaker import session_maker
 
 
 def get_column_from_enum(metric: Metrics):
@@ -33,12 +32,11 @@ def compute_asset_metric_mean(session: Session, asset_id: int, start: float, end
 
   return mean_result._mapping
 
-def get_assets_metric_average(asset_ids: list[int], startTime: float, endTime: float, metric: Metrics):
+def get_assets_metric_average(session: Session, asset_ids: list[int], startTime: int, endTime: int, metric: Metrics):
   start = datetime.fromtimestamp(startTime)
   end = datetime.fromtimestamp(endTime)
   mean_results = []
-  with session_maker() as session:
-    for id in asset_ids:
-      mean_results.append(compute_asset_metric_mean(session, id, start, end, metric))
+  for id in asset_ids:
+    mean_results.append(compute_asset_metric_mean(session, id, start, end, metric))
   
   return mean_results

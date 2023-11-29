@@ -1,32 +1,34 @@
 import pandas as pd
-from sqlalchemy import create_engine, DateTime, Integer, String
-from app.models.db_schemas import Asset, Measurement, Base
+from sqlalchemy import create_engine, DateTime, Integer, String, Connection
+from models.db_schemas import Asset, Measurement, Base
 
 
 db = create_engine("postgresql+psycopg2://root:password@localhost:5431/turbines")
 
-def load_assets_table():
+def load_assets_table(conn: Connection):
   df = pd.read_csv("./data_sources/assets.csv")
 
-  try:
-    df.rename(columns={"asset_id": "id"}, inplace=True)
-    df.to_sql(Asset.__tablename__, db, if_exists="append", index=False, dtype={"id": Integer(), "name": String(50)})
-  except Exception as err:
-    print("Failed to load csv into DB", err)
+  df.rename(columns={"asset_id": "id"}, inplace=True)
+  df.to_sql(Asset.__tablename__, conn, if_exists="append", index=False, dtype={"id": Integer(), "name": String(50)})
 
-def load_measurements_table():
+def load_measurements_table(conn: Connection):
   df = pd.read_csv("./data_sources/measurements.csv")
-
-  try:
-    df.to_sql(Measurement.__tablename__, db, if_exists="append", index=True, index_label="id",
-      dtype={"timestamp": DateTime, "asset_id": Integer()},
-    )
-  except Exception as err:
-    print("Failed to load csv into DB", err)
+  df.dropna(inplace=True)
+  df.to_sql(Measurement.__tablename__, conn, if_exists="append", index=True, index_label="id",
+    dtype={"timestamp": DateTime, "asset_id": Integer()},
+  )
 
 def load_all():
-  Base.metadata.create_all(db)  
-  load_assets_table()
-  load_measurements_table()
+  with db.connect() as conn:
+    try:
+      Base.metadata.create_all(conn)  
+      load_assets_table(conn)
+      load_measurements_table(conn)
+      conn.commit()
+    except Exception as err:
+      print("Failed to load csv into database", err)
+      print("Rolling back transaction")
+      conn.rollback()
+
 
   db.dispose()

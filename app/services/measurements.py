@@ -14,29 +14,21 @@ def get_column_from_enum(metric: Metrics):
     return Measurement.air_temperature.label(Metrics.AIR_TEMPERATURE.value)
   return None
 
-def compute_asset_metric_mean(session: Session, asset_id: int, start: float, end: float, metric: Metrics):
-
+def get_assets_metric_average(session: Session, asset_ids: list[int], startTime: int, endTime: int, metric: Metrics):
+  start = datetime.fromtimestamp(startTime)
+  end = datetime.fromtimestamp(endTime)
   mean_value_query = session.query(
     Measurement.asset_id.label("asset_id"),
     func.avg(get_column_from_enum(metric)).label("mean"),
   ).filter(
-    Measurement.asset_id == asset_id, Measurement.timestamp > start, end > Measurement.timestamp
+    Measurement.asset_id.in_(asset_ids), Measurement.timestamp > start, end > Measurement.timestamp
   ).group_by(
     Measurement.asset_id
   ).subquery()
 
-  mean_result = session.query(
+  mean_results = session.query(
     Asset.name.label("asset_name"),
     mean_value_query.c.mean.label("mean"),
-  ).select_from(Asset).join(mean_value_query).first()
-
-  return mean_result._mapping
-
-def get_assets_metric_average(session: Session, asset_ids: list[int], startTime: int, endTime: int, metric: Metrics):
-  start = datetime.fromtimestamp(startTime)
-  end = datetime.fromtimestamp(endTime)
-  mean_results = []
-  for id in asset_ids:
-    mean_results.append(compute_asset_metric_mean(session, id, start, end, metric))
+  ).select_from(Asset).join(mean_value_query).all()
   
   return mean_results

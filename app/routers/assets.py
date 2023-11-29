@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from fastapi.resposes import PlainTextResponse
 from services import assets, sessionmaker
 from api_schemas.schemas import Asset
 from sqlalchemy.orm import Session

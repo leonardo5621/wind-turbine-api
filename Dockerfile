@@ -24,9 +24,9 @@ COPY --chown=klever:klever --from=builder /app/wheels /wheels
 COPY --chown=klever:klever --from=builder /app/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
-COPY --chown=app_user:app_user . .
+COPY --chown=app_user:app_user ./app/ .
 RUN chown -R app_user:app_user .
 
 USER app_user
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["uvicorn", "main:app"]

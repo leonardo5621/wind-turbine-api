@@ -1,7 +1,7 @@
 import structlog
 from typing import Annotated
 from fastapi import APIRouter, HTTPException, Depends
-from fastapi.resposes import PlainTextResponse
+from fastapi.responses import PlainTextResponse
 from sqlalchemy.orm import Session
 from services import measurements, assets, sessionmaker
 from api_schemas.schemas import MeanIn, MetricMean

@@ -1,6 +1,9 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
 from routers import health, assets, measurements
 from starlette.middleware.cors import CORSMiddleware
+
+load_dotenv()
 
 tags_metadata = [
     {

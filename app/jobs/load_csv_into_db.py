@@ -1,6 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine, DateTime, Integer, String
-from models.schemas import Asset, Measurement, Base
+from app.models.db_schemas import Asset, Measurement, Base
 
 
 db = create_engine("postgresql+psycopg2://root:password@localhost:5431/turbines")

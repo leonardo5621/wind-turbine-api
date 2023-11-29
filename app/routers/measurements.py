@@ -2,32 +2,22 @@ from fastapi import APIRouter, Query
 from pydantic import BaseModel
 from typing import Annotated
 from services import measurements
+from api_schemas.schemas import MeanIn, MetricMean
 
 router = APIRouter(
   prefix="/measurements"
 )
 
-
-class MedianIn(BaseModel):
-  metric: measurements.Metrics
-  startTime: float
-  endTime: float
-  asset_ids: list[int]
-
-class MetricMedian(BaseModel):
-  asset_id: int
-  median: float
-
 @router.get("/")
 async def get_asset_measurements() -> list[measurements.Metrics]:
   return [metric.value for metric in measurements.Metrics]
 
-@router.post("/median")
-def get_asset_measurement_median(medianCalculation: MedianIn) -> list[MetricMedian]:
-  median = measurements.get_filtered_measurements(
-    medianCalculation.asset_ids[0],
-    medianCalculation.startTime,
-    medianCalculation.endTime,
-    medianCalculation.metric,
+@router.post("/mean")
+def get_asset_measurement_mean(meanCalculation: MeanIn) -> list[MetricMean]:
+  mean_results = measurements.get_assets_metric_average(
+    meanCalculation.asset_ids,
+    meanCalculation.startTime,
+    meanCalculation.endTime,
+    meanCalculation.metric,
   )
-  return []
+  return mean_results

@@ -27,7 +27,10 @@ To run the API server locally, there are two main options:
    docker compose up -d
 ```
 
-*While running with Docker. Some of the routes will include a trailing slash `/` at the end. Make sure to check the `/docs` to see which are the correct ones.*
+*Some of the routes will include a trailing slash `/` at the end. Make sure to check the `/docs` to see which are the correct ones.*
+
+![Screenshot from 2023-11-30 11-12-39](https://github.com/leonardo5621/wind-turbine-api/assets/30439454/a53297eb-0624-4626-80e3-e509322d267e)
+
 
 ## Loading data into the database
 

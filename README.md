@@ -8,15 +8,15 @@ The application data is provided from a set of CSV files that can be loaded into
 
 This project is divided as follows:
 
-- `app folder`: Place where the entire API application source code is located.
+- `app`: Place where the entire API application source code is located.
 - `data_sources`: CSV files containing the wind turbines data.
-- `jobs`: Module containing jos that can be launched to perform specific tasks. Most notably, loading the CSV files data into postgres.
+- `jobs`: Module containing jobs that can be launched to perform specific tasks. Most notably, loading the CSV files data into postgres.
 
 ## Running the Server
 
 To run the API server locally, there are two main options:
 
-- Running locally with the uvicorn command, **make sure you are placed inside the `/app` folder to run this command**:
+- Running locally with the uvicorn command, **make sure you are placed inside the `app` folder to run this command**:
 ```
    uvicorn main.app
 ```

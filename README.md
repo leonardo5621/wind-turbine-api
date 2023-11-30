@@ -16,18 +16,21 @@ This project is divided as follows:
 
 To run the API server locally, there are two main options:
 
-- Running locally with the uvicorn command:
+- Running locally with the uvicorn command, **make sure you are placed inside the `/app` folder to run this command**:
 ```
    uvicorn main.app
 ```
-**Make sure you are placed inside the `/app` folder to run this command**
+
 - Running with the provided `docker-compose.yaml` file:
   The `docker-compose` file will take care of setting up the postgres database and the API server. The backend will run using a pre-built image available in this [Docker Hub Repository](https://hub.docker.com/repository/docker/leo5621/wind-turbine-api/general)
 ```
    docker compose up -d
 ```
 
-*While running with Docker. Some of the routes will include a trailing slash `/` at the end. Make sure to check the `/docs` to see which are the correct ones.*
+*Some of the routes will include a trailing slash `/` at the end. Make sure to check the `/docs` to see which are the correct ones.*
+
+![Screenshot from 2023-11-30 11-12-39](https://github.com/leonardo5621/wind-turbine-api/assets/30439454/a53297eb-0624-4626-80e3-e509322d267e)
+
 
 ## Loading data into the database
 

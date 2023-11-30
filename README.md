@@ -31,7 +31,43 @@ To run the API server locally, there are two main options:
 
 ![Screenshot from 2023-11-30 11-12-39](https://github.com/leonardo5621/wind-turbine-api/assets/30439454/a53297eb-0624-4626-80e3-e509322d267e)
 
+## Mean Calculation Route Example
 
+Example of a call for the mean calculation route, supposing the server is running locally:
+
+Endpoint: `http://127.0.0.1:8000/measurements/mean`
+
+Method: POST
+
+Body:
+```
+{
+	"asset_ids": [101, 102, 103],
+	"startTime": 2069586102, // Wednesday, August 1, 2035 10:01:42
+	"endTime": 2069672502, // Thursday, August 2, 2035 10:01:42
+	"metric": "power"
+}
+```
+*Note we are considering the timestamps in the local timezone (Brazil/East, GMT -03), as the computation is going to take it into account*
+
+**Response**:
+
+```
+[
+	{
+		"asset_name": "WTG 01",
+		"mean": 1737.456308163049
+	},
+	{
+		"asset_name": "WTG 02",
+		"mean": 1662.533734785903
+	},
+	{
+		"asset_name": "WTG 03",
+		"mean": 1691.8070248658337
+	}
+]
+```
 ## Loading data into the database
 
 You can run the `init_db_script.py` to have the CSV files data loaded into the postgres database. The data will be loaded into the database only if the script succeeds, otherwise the entire transaction will rolled back.

@@ -4,12 +4,30 @@ services:
   postgres:
     image: postgres
     ports:
-      - '5431:5432'
+      - '5432:5432'
     volumes:
       - 'postgres:/var/lib/postgresql'
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: root
       POSTGRES_DB: turbines
+    networks:
+      - turbines
+  api:
+    image: leo5621/wind-turbine-api:3d470d1a257dbc1612d6ca9c996ede26131704ac
+    ports:
+      - '8000:8000'
+    environment:
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: turbines
+    networks:
+      - turbines
+
+
+networks:
+  turbines:
 volumes:
   postgres:

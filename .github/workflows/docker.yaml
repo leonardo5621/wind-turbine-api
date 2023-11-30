@@ -22,4 +22,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: leo5621/${{ github.event.repository.name }}:${{ github.sha }}, leo5621/${{ github.event.repository.name }}:${{ github.sha }}
+          tags: leo5621/${{ github.event.repository.name }}:${{ github.sha }}, leo5621/${{ github.event.repository.name }}:latest

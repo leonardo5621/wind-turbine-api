@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import func
@@ -16,8 +16,8 @@ def get_column_from_enum(metric: Metrics):
   return None
 
 def get_assets_metric_average(session: Session, asset_ids: list[int], startTime: int, endTime: int, metric: Metrics):
-  start = datetime.fromtimestamp(startTime)
-  end = datetime.fromtimestamp(endTime)
+  start = datetime.datetime.fromtimestamp(startTime, tz=datetime.timezone.utc)
+  end = datetime.datetime.fromtimestamp(endTime, tz=datetime.timezone.utc)
   mean_value_query = session.query(
     Measurement.asset_id.label("asset_id"),
     func.avg(get_column_from_enum(metric)).label("mean"),

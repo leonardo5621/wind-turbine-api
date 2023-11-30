@@ -43,12 +43,11 @@ Body:
 ```
 {
 	"asset_ids": [101, 102, 103],
-	"startTime": 2069586102, // Wednesday, August 1, 2035 10:01:42
-	"endTime": 2069672502, // Thursday, August 2, 2035 10:01:42
+	"startTime": 2069586102, // Wednesday, August 1, 2035 13:01:42 (UTC)
+	"endTime": 2069672502, // Thursday, August 2, 2035 13:01:42 (UTC)
 	"metric": "power"
 }
 ```
-*Note we are considering the timestamps in the local timezone (Brazil/East, GMT -03), as the computation is going to take it into account*
 
 **Response**:
 
@@ -56,15 +55,15 @@ Body:
 [
 	{
 		"asset_name": "WTG 01",
-		"mean": 1737.456308163049
+		"mean": 1809.7589554166661
 	},
 	{
 		"asset_name": "WTG 02",
-		"mean": 1662.533734785903
+		"mean": 1757.6594918750004
 	},
 	{
 		"asset_name": "WTG 03",
-		"mean": 1691.8070248658337
+		"mean": 1780.109238541667
 	}
 ]
 ```

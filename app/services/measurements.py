@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import func
 from models.db_schemas import Measurement, Asset
@@ -21,7 +22,7 @@ def get_assets_metric_average(session: Session, asset_ids: list[int], startTime:
     Measurement.asset_id.label("asset_id"),
     func.avg(get_column_from_enum(metric)).label("mean"),
   ).filter(
-    Measurement.asset_id.in_(asset_ids), Measurement.timestamp > start, end > Measurement.timestamp
+    and_(Measurement.asset_id.in_(asset_ids), Measurement.timestamp > start, end > Measurement.timestamp)
   ).group_by(
     Measurement.asset_id
   ).subquery()
